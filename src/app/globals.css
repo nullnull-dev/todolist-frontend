@@ -2,22 +2,64 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-[#0A0A0F] text-[#F1F5F9] antialiased;
+  }
+
+  ::selection {
+    @apply bg-[#3B82F6]/30;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-white/10 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-white/20;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .glass-card {
+    @apply bg-white/[0.03] border border-white/[0.08] rounded-2xl backdrop-blur-xl;
+  }
+
+  .glass-input {
+    @apply bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3;
+    @apply text-[#F1F5F9] placeholder:text-[#64748B];
+    @apply focus:outline-none focus:border-[#3B82F6]/50 focus:ring-2 focus:ring-[#3B82F6]/20;
+    @apply transition-all duration-200;
+  }
+
+  .glass-button {
+    @apply bg-[#3B82F6] hover:bg-[#2563EB] text-white font-medium;
+    @apply rounded-xl px-6 py-3;
+    @apply transition-all duration-200;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .glass-button-ghost {
+    @apply bg-transparent hover:bg-white/[0.05] text-[#94A3B8];
+    @apply rounded-xl px-4 py-2;
+    @apply transition-all duration-200;
+  }
 }
 
 @layer utilities {
