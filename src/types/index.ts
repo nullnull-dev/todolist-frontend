@@ -76,3 +76,38 @@ export interface TodoFilters {
   priority?: Priority;
   sort?: string;
 }
+
+// Attachment
+export interface Attachment {
+  id: number;
+  todoId: number;
+  fileName: string;
+  originalName: string;
+  filePath: string;
+  fileUrl: string;
+  fileSize: number;
+  contentType: string;
+  createdAt: string;
+}
+
+export interface PresignedUrlRequest {
+  fileName: string;
+  contentType: string;
+  fileSize: number;
+  todoId: number;
+}
+
+export interface PresignedUrlResponse {
+  presignedUrl: string;
+  fileKey: string;
+  fileUrl: string;
+}
+
+export interface UploadCompleteRequest {
+  todoId: number;
+  fileName: string;
+  originalName: string;
+  filePath: string;
+  fileSize: number;
+  contentType: string;
+}

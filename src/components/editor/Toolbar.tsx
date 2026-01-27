@@ -10,16 +10,20 @@ import {
   Heading2,
   Link,
   Unlink,
+  Image,
 } from 'lucide-react';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useRef } from 'react';
 
 interface ToolbarProps {
   editor: Editor | null;
+  onImageUpload?: (file: File) => void;
+  canUploadImage?: boolean;
 }
 
-export default function Toolbar({ editor }: ToolbarProps) {
+export default function Toolbar({ editor, onImageUpload, canUploadImage }: ToolbarProps) {
   const [showLinkInput, setShowLinkInput] = useState(false);
   const [linkUrl, setLinkUrl] = useState('');
+  const imageInputRef = useRef<HTMLInputElement>(null);
 
   const setLink = useCallback(() => {
     if (!editor) return;
@@ -34,11 +38,26 @@ export default function Toolbar({ editor }: ToolbarProps) {
     setShowLinkInput(false);
   }, [editor, linkUrl]);
 
+  const handleImageSelect = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file && onImageUpload) {
+        onImageUpload(file);
+      }
+      if (imageInputRef.current) {
+        imageInputRef.current.value = '';
+      }
+    },
+    [onImageUpload]
+  );
+
   if (!editor) return null;
 
-  const buttonClass = (isActive: boolean) =>
+  const buttonClass = (isActive: boolean, disabled?: boolean) =>
     `p-1.5 rounded transition-colors ${
-      isActive
+      disabled
+        ? 'text-[#475569] cursor-not-allowed'
+        : isActive
         ? 'bg-[#3B82F6]/20 text-[#3B82F6]'
         : 'text-[#94A3B8] hover:text-[#F1F5F9] hover:bg-white/5'
     }`;
@@ -166,6 +185,26 @@ export default function Toolbar({ editor }: ToolbarProps) {
           )}
         </>
       )}
+
+      <div className="w-px h-5 bg-white/10 mx-1" />
+
+      {/* Image Upload Button */}
+      <input
+        ref={imageInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleImageSelect}
+        className="hidden"
+      />
+      <button
+        type="button"
+        onClick={() => canUploadImage && imageInputRef.current?.click()}
+        className={buttonClass(false, !canUploadImage)}
+        title={canUploadImage ? '이미지 삽입' : '이미지 업로드는 저장 후 가능합니다'}
+        disabled={!canUploadImage}
+      >
+        <Image className="w-4 h-4" />
+      </button>
     </div>
   );
 }

@@ -11,8 +11,13 @@ interface TodoListProps {
   onDelete: (id: number) => void;
 }
 
+const TEMP_TITLE = '__TEMP_TODO__';
+
 export default function TodoList({ todos, onToggle, onDelete }: TodoListProps) {
-  if (todos.length === 0) {
+  // 임시 Todo 필터링
+  const filteredTodos = todos.filter((todo) => todo.title !== TEMP_TITLE);
+
+  if (filteredTodos.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center w-full">
         <ClipboardList className="w-16 h-16 text-[#475569] mb-4" />
@@ -29,7 +34,7 @@ export default function TodoList({ todos, onToggle, onDelete }: TodoListProps) {
   return (
     <div className="space-y-3">
       <AnimatePresence mode="popLayout">
-        {todos.map((todo) => (
+        {filteredTodos.map((todo) => (
           <TodoItem
             key={todo.id}
             todo={todo}

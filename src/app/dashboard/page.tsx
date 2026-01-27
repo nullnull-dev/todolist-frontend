@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Plus } from 'lucide-react';
 import { isAuthenticated } from '@/lib/auth';
 import { useTodos } from '@/hooks/useTodos';
+import { useQueryClient } from '@tanstack/react-query';
 import { TodoFilters } from '@/types';
 import Header from '@/components/layout/Header';
 import Button from '@/components/ui/Button';
@@ -15,6 +16,7 @@ import TodoFilter from '@/components/todo/TodoFilter';
 
 export default function DashboardPage() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
   const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
 
@@ -24,7 +26,7 @@ export default function DashboardPage() {
     sort: 'createdAt,desc',
   };
 
-  const { todos, isLoading, createTodo, isCreating, toggleTodo, deleteTodo } = useTodos(filters);
+  const { todos, isLoading, toggleTodo, deleteTodo } = useTodos(filters);
 
   useEffect(() => {
     if (!isAuthenticated()) {
@@ -32,10 +34,10 @@ export default function DashboardPage() {
     }
   }, [router]);
 
-  const handleCreateTodo = (data: Parameters<typeof createTodo>[0]) => {
-    createTodo(data, {
-      onSuccess: () => setShowForm(false),
-    });
+  const handleTodoCreated = () => {
+    // TodoForm에서 이미 생성/업데이트됨, 리스트만 갱신
+    queryClient.invalidateQueries({ queryKey: ['todos'] });
+    setShowForm(false);
   };
 
   return (
@@ -70,9 +72,8 @@ export default function DashboardPage() {
 
       {showForm && (
         <TodoForm
-          onSubmit={handleCreateTodo}
+          onSubmit={handleTodoCreated}
           onClose={() => setShowForm(false)}
-          isLoading={isCreating}
         />
       )}
     </div>
