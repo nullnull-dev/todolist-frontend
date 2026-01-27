@@ -7,6 +7,7 @@ import { useAuth } from '@/hooks/useAuth';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import GlassCard from '@/components/ui/GlassCard';
+import GoogleLoginButton from '@/components/auth/GoogleLoginButton';
 import { AxiosError } from 'axios';
 import { ApiError } from '@/types';
 
@@ -120,6 +121,17 @@ export default function SignupForm() {
         <Button type="submit" loading={isSigningUp} className="w-full">
           회원가입
         </Button>
+
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-white/10"></div>
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-2 bg-[#12121A] text-[#475569]">또는</span>
+          </div>
+        </div>
+
+        <GoogleLoginButton />
       </form>
 
       <p className="mt-6 text-center text-sm text-[#94A3B8]">
