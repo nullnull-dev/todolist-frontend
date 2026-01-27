@@ -14,7 +14,7 @@ interface TodoListProps {
 export default function TodoList({ todos, onToggle, onDelete }: TodoListProps) {
   if (todos.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 text-center">
+      <div className="flex flex-col items-center justify-center py-16 text-center w-full">
         <ClipboardList className="w-16 h-16 text-[#475569] mb-4" />
         <h3 className="text-lg font-medium text-[#94A3B8] mb-2">
           할 일이 없습니다

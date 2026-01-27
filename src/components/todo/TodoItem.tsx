@@ -5,6 +5,7 @@ import { Check, Trash2, Calendar } from 'lucide-react';
 import { Todo } from '@/types';
 import Badge from '@/components/ui/Badge';
 import GlassCard from '@/components/ui/GlassCard';
+import HtmlContent from '@/components/editor/HtmlContent';
 
 interface TodoItemProps {
   todo: Todo;
@@ -55,9 +56,9 @@ export default function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
             </div>
 
             {todo.description && (
-              <p className="text-sm text-[#94A3B8] line-clamp-2 mb-2">
-                {todo.description}
-              </p>
+              <div className="text-sm mb-2 line-clamp-3">
+                <HtmlContent content={todo.description} />
+              </div>
             )}
 
             {todo.dueDate && (

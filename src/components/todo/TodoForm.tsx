@@ -6,6 +6,7 @@ import { Priority, TodoRequest } from '@/types';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import GlassCard from '@/components/ui/GlassCard';
+import TiptapEditor from '@/components/editor/TiptapEditor';
 
 interface TodoFormProps {
   onSubmit: (data: TodoRequest) => void;
@@ -23,9 +24,12 @@ export default function TodoForm({ onSubmit, onClose, isLoading }: TodoFormProps
     e.preventDefault();
     if (!title.trim()) return;
 
+    // Filter empty HTML content
+    const cleanDescription = description && description !== '<p></p>' ? description : undefined;
+
     onSubmit({
       title: title.trim(),
-      description: description.trim() || undefined,
+      description: cleanDescription,
       priority,
       dueDate: dueDate || undefined,
     });
@@ -33,7 +37,7 @@ export default function TodoForm({ onSubmit, onClose, isLoading }: TodoFormProps
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <GlassCard className="w-full max-w-md p-6">
+      <GlassCard className="w-full max-w-2xl p-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold text-[#F1F5F9]">새 할 일</h2>
           <button
@@ -61,12 +65,10 @@ export default function TodoForm({ onSubmit, onClose, isLoading }: TodoFormProps
             <label className="block text-sm font-medium text-[#94A3B8] mb-2">
               설명
             </label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+            <TiptapEditor
+              content={description}
+              onChange={setDescription}
               placeholder="상세 설명 (선택)"
-              rows={3}
-              className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-[#F1F5F9] placeholder-[#475569] focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent resize-none"
             />
           </div>
 
