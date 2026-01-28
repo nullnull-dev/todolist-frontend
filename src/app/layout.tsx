@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'TodoList',
-  description: '할 일 관리 애플리케이션 - Glass Dark Design',
+  description: '할 일 관리 애플리케이션',
 };
 
 export default function RootLayout({
