@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { setToken } from '@/lib/auth';
 import { useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import GlassCard from '@/components/ui/GlassCard';
 
-export default function OAuth2RedirectPage() {
+function OAuth2RedirectContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
@@ -61,5 +61,23 @@ export default function OAuth2RedirectPage() {
         <p className="text-[#94A3B8]">잠시만 기다려주세요...</p>
       </GlassCard>
     </div>
+  );
+}
+
+export default function OAuth2RedirectPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center p-4">
+          <GlassCard className="w-full max-w-md p-8 text-center">
+            <Loader2 className="w-12 h-12 mx-auto text-[#3B82F6] animate-spin mb-4" />
+            <h1 className="text-xl font-bold text-[#F1F5F9] mb-2">로딩 중</h1>
+            <p className="text-[#94A3B8]">잠시만 기다려주세요...</p>
+          </GlassCard>
+        </div>
+      }
+    >
+      <OAuth2RedirectContent />
+    </Suspense>
   );
 }

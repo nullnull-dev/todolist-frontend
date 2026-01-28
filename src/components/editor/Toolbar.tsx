@@ -10,7 +10,7 @@ import {
   Heading2,
   Link,
   Unlink,
-  Image,
+  Image as ImageIcon,
 } from 'lucide-react';
 import { useCallback, useState, useRef } from 'react';
 
@@ -203,7 +203,7 @@ export default function Toolbar({ editor, onImageUpload, canUploadImage }: Toolb
         title={canUploadImage ? '이미지 삽입' : '이미지 업로드는 저장 후 가능합니다'}
         disabled={!canUploadImage}
       >
-        <Image className="w-4 h-4" />
+        <ImageIcon className="w-4 h-4" />
       </button>
     </div>
   );

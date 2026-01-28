@@ -1,6 +1,6 @@
 'use client';
 
-import { FileText, Image, Trash2, Download, ExternalLink } from 'lucide-react';
+import { FileText, Trash2, Download, ExternalLink } from 'lucide-react';
 import { Attachment } from '@/types';
 import { formatFileSize } from '@/lib/s3';
 
