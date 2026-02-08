@@ -1,5 +1,6 @@
 'use client';
 
+// CloudFront CDN URL 적용 - 2026.02.09
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { isAuthenticated } from '@/lib/auth';
